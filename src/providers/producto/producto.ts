@@ -15,11 +15,7 @@ export class ProductoProvider {
   }
 
   obtenerProductos(){
-    this.http.get('assets/data.json').subscribe(
-      (datos) => {
-        console.log(datos);
-      }
-    );
+    return this.http.get('assets/data.json');
   }
 
 }

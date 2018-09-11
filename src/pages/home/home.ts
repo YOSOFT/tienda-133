@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ProductoProvider } from '../../providers/producto/producto';
 
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -17,7 +18,18 @@ export class HomePage {
   }
 
   ionViewDidLoad(){
-    this.servicioProductos.obtenerProductos();
+    this.servicioProductos.obtenerProductos().subscribe(
+      (datos: any[]) => {
+        console.log(datos);
+        this.productos = datos;
+      }
+    );
+  }
+
+  irDetalleProducto(producto){
+    this.navCtrl.push("DetalleProductoPage",{
+      detalleProduto : producto
+    });
   }
 
 }
