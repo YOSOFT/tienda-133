@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ProductoProvider } from '../../providers/producto/producto';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 
 @Component({
@@ -10,8 +11,10 @@ import { ProductoProvider } from '../../providers/producto/producto';
 export class HomePage {
 
   productos = [];
+  imagenCamara: string;
   constructor(
     public navCtrl: NavController,
+    private camara: Camera,
     private servicioProductos: ProductoProvider
   ) {
 
@@ -32,4 +35,21 @@ export class HomePage {
     });
   }
 
+  tomarFoto(){
+    let opciones:CameraOptions = {
+      sourceType: this.camara.PictureSourceType.CAMERA,
+      mediaType: this.camara.MediaType.PICTURE,
+      encodingType: this.camara.EncodingType.JPEG,
+      quality: 100,
+      destinationType: this.camara.DestinationType.DATA_URL
+    }
+    this.camara.getPicture(opciones).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.imagenCamara = base64Image;
+    }, (err) => {
+      // Handle error
+     });
+  }
 }
